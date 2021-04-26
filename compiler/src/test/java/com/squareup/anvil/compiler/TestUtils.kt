@@ -14,7 +14,6 @@ import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.name.FqName
 import org.junit.Assume.assumeTrue
 import java.io.File
-import java.util.Locale.US
 import kotlin.reflect.KClass
 
 internal fun compile(
@@ -178,7 +177,7 @@ internal fun Class<*>.moduleFactoryClass(
 
   return classLoader.loadClass(
     "${packageName()}$enclosingClassString$simpleName$companionString" +
-      "_${providerMethodName.capitalize(US)}Factory"
+      "_${providerMethodName.capitalizeSupport()}Factory"
   )
 }
 
@@ -209,7 +208,7 @@ private fun Class<*>.contributedProperties(packagePrefix: String): List<KClass<*
   // The capitalize() doesn't make sense, I don't know where this is coming from. Maybe it's a
   // bug in the compile testing library?
   val className = canonicalName.replace('.', '_')
-    .capitalize(US) + "Kt"
+    .capitalizeSupport() + "Kt"
 
   val clazz = try {
     classLoader.loadClass("$packagePrefix.${packageName()}$className")

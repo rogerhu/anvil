@@ -1,5 +1,6 @@
 package com.squareup.anvil.compiler.codegen.dagger
 
+import com.squareup.anvil.compiler.capitalizeSupport
 import com.squareup.anvil.compiler.codegen.CodeGenerator.GeneratedFile
 import com.squareup.anvil.compiler.codegen.PrivateCodeGenerator
 import com.squareup.anvil.compiler.codegen.asArgumentList
@@ -34,7 +35,6 @@ import org.jetbrains.kotlin.psi.KtConstructor
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifierTypeOrDefault
 import java.io.File
-import java.util.Locale.US
 
 internal class InjectConstructorFactoryGenerator : PrivateCodeGenerator() {
 
@@ -145,7 +145,7 @@ internal class InjectConstructorFactoryGenerator : PrivateCodeGenerator() {
 
                   val property = memberInjectProperties[index]
                   val propertyName = property.nameAsSafeName.asString()
-                  val functionName = "inject${propertyName.capitalize(US)}"
+                  val functionName = "inject${propertyName.capitalizeSupport()}"
 
                   val param = when {
                     parameter.isWrappedInProvider -> parameter.name

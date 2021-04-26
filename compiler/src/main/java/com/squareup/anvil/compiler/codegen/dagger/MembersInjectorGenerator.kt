@@ -1,5 +1,6 @@
 package com.squareup.anvil.compiler.codegen.dagger
 
+import com.squareup.anvil.compiler.capitalizeSupport
 import com.squareup.anvil.compiler.codegen.CodeGenerator.GeneratedFile
 import com.squareup.anvil.compiler.codegen.PrivateCodeGenerator
 import com.squareup.anvil.compiler.codegen.asClassName
@@ -36,7 +37,6 @@ import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifierTypeOrDefault
 import java.io.File
-import java.util.Locale.US
 
 internal class MembersInjectorGenerator : PrivateCodeGenerator() {
 
@@ -127,7 +127,7 @@ internal class MembersInjectorGenerator : PrivateCodeGenerator() {
                   val propertyName = property.nameAsSafeName.asString()
 
                   addStatement(
-                    "inject${propertyName.capitalize(US)}(instance, ${
+                    "inject${propertyName.capitalizeSupport()}(instance, ${
                     when {
                       parameter.isWrappedInProvider -> parameter.name
                       parameter.isWrappedInLazy ->
@@ -165,7 +165,7 @@ internal class MembersInjectorGenerator : PrivateCodeGenerator() {
                   val propertyName = property.nameAsSafeName.asString()
 
                   addFunction(
-                    FunSpec.builder("inject${propertyName.capitalize(US)}")
+                    FunSpec.builder("inject${propertyName.capitalizeSupport()}")
                       .jvmStatic()
                       .addAnnotation(
                         AnnotationSpec.builder(InjectedFieldSignature::class)

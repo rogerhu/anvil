@@ -1,6 +1,7 @@
 package com.squareup.anvil.compiler.codegen.dagger
 
 import com.squareup.anvil.compiler.AnvilCompilationException
+import com.squareup.anvil.compiler.capitalizeSupport
 import com.squareup.anvil.compiler.codegen.CodeGenerator.GeneratedFile
 import com.squareup.anvil.compiler.codegen.PrivateCodeGenerator
 import com.squareup.anvil.compiler.codegen.asArgumentList
@@ -48,7 +49,6 @@ import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.parents
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifierTypeOrDefault
 import java.io.File
-import java.util.Locale.US
 
 internal class ProvidesMethodFactoryGenerator : PrivateCodeGenerator() {
 
@@ -129,7 +129,7 @@ internal class ProvidesMethodFactoryGenerator : PrivateCodeGenerator() {
       if (isProperty) {
         append("Get")
       }
-      append(declaration.requireFqName().shortName().asString().capitalize(US))
+      append(declaration.requireFqName().shortName().asString().capitalizeSupport())
       if (isMangled) {
         append("\$${module.mangledNameSuffix()}")
       }
@@ -148,7 +148,7 @@ internal class ProvidesMethodFactoryGenerator : PrivateCodeGenerator() {
     val moduleClass = clazz.asClassName()
 
     val byteCodeFunctionName = when {
-      isProperty -> "get" + callableName.capitalize(US)
+      isProperty -> "get" + callableName.capitalizeSupport()
       isMangled -> "$callableName\$${module.mangledNameSuffix()}"
       else -> callableName
     }

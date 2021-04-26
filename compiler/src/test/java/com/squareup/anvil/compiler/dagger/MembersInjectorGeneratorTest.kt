@@ -1,6 +1,7 @@
 package com.squareup.anvil.compiler.dagger
 
 import com.google.common.truth.Truth.assertThat
+import com.squareup.anvil.compiler.capitalizeSupport
 import com.squareup.anvil.compiler.createInstance
 import com.squareup.anvil.compiler.injectClass
 import com.squareup.anvil.compiler.isStatic
@@ -14,7 +15,6 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import java.io.File
 import java.lang.reflect.Method
-import java.util.Locale.US
 import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
@@ -741,7 +741,7 @@ public final class InjectClass_MembersInjector<T, U, V> implements MembersInject
     // retention.
     return declaredMethods
       .filter { it.isStatic }
-      .single { it.name == "inject${memberName.capitalize(US)}" }
+      .single { it.name == "inject${memberName.capitalizeSupport()}" }
   }
 
   @Suppress("CHANGING_ARGUMENTS_EXECUTION_ORDER_FOR_NAMED_VARARGS")

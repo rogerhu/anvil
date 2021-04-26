@@ -12,6 +12,7 @@ import com.squareup.anvil.compiler.annotation
 import com.squareup.anvil.compiler.annotationOrNull
 import com.squareup.anvil.compiler.argumentType
 import com.squareup.anvil.compiler.boundType
+import com.squareup.anvil.compiler.capitalizeSupport
 import com.squareup.anvil.compiler.classDescriptorForType
 import com.squareup.anvil.compiler.codegen.CodeGenerator.GeneratedFile
 import com.squareup.anvil.compiler.codegen.GeneratedMethod.BindingMethod
@@ -20,6 +21,7 @@ import com.squareup.anvil.compiler.contributesBindingFqName
 import com.squareup.anvil.compiler.contributesMultibindingFqName
 import com.squareup.anvil.compiler.contributesToFqName
 import com.squareup.anvil.compiler.daggerModuleFqName
+import com.squareup.anvil.compiler.decapitalizeSupport
 import com.squareup.anvil.compiler.generateClassName
 import com.squareup.anvil.compiler.getAnnotationValue
 import com.squareup.anvil.compiler.ignoreQualifier
@@ -57,7 +59,6 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperClassifiers
 import org.jetbrains.kotlin.types.KotlinType
 import java.io.File
-import java.util.Locale.US
 
 private val supportedFqNames = listOf(
   mergeComponentFqName,
@@ -288,7 +289,7 @@ internal class BindingModuleGenerator(
                         prefix = "provide",
                         postfix = if (isMultibinding) "Multi" else ""
                       ) {
-                        it.capitalize(US)
+                        it.capitalizeSupport()
                       }
                   )
                   .addAnnotation(Provides::class)
@@ -316,7 +317,7 @@ internal class BindingModuleGenerator(
                         prefix = "bind",
                         postfix = if (isMultibinding) "Multi" else ""
                       ) {
-                        it.capitalize(US)
+                        it.capitalizeSupport()
                       }
                   )
                   .addAnnotation(Binds::class)
@@ -330,7 +331,7 @@ internal class BindingModuleGenerator(
                   .addAnnotations(mapKeys)
                   .addModifiers(ABSTRACT)
                   .addParameter(
-                    name = concreteType.shortName().asString().decapitalize(US),
+                    name = concreteType.shortName().asString().decapitalizeSupport(),
                     type = contributedClass.asClassName()
                   )
                   .returns(boundType.asClassName())
